@@ -19,7 +19,7 @@ namespace CustomListProject
         public T[] contents;
         int size;
 
-        static readonly T[] emptyArray = new T[0];
+        T[] emptyArray = new T[0];
 
         public CustomList()
         {
@@ -38,11 +38,19 @@ namespace CustomListProject
             }
         }
 
+        public T this[int index]
+        {
+            get
+            {
+                return contents[index];
+            }
+        }
+
         
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            for (int index = 0; index < contents.Length; index++)
+            for (int index = 0; index < size; index++)
             {
                 yield return contents[index];
             }
@@ -51,7 +59,7 @@ namespace CustomListProject
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int index = 0; index < contents.Length; index++)
+            for (int index = 0; index < size; index++)
             {
                 yield return contents[index];
             }
@@ -60,8 +68,10 @@ namespace CustomListProject
         public void Add(T item)
         {
 
-                EnsureCapacity(size + 1);
-                contents[size++] = item;
+            EnsureCapacity(size + 1);
+            contents[size] = item;
+            size++;
+         
 
         }
 
@@ -69,7 +79,7 @@ namespace CustomListProject
         {
             get
             {
-                return contents.Length;
+                return size;
             }
             set
             {
@@ -77,14 +87,19 @@ namespace CustomListProject
                 {
                     Console.WriteLine("Entered capacity is too small to set as list length.  Reenter with valid entry");
                 }
-                else if (value!= contents.Length)
+                else if (value!= size)
                 {
                     if (value > 0)
                     {
                         T[] newContents = new T[value];
                         if (size > 0)
                         {
-                            Array.Copy(contents, 0, newContents, 0, size);
+                            
+
+                            for (int index = 0; index < size; index++)
+                            {
+                                newContents[index] = contents[index];
+                            }          
                         }
                         contents = newContents;
                     }
@@ -96,9 +111,9 @@ namespace CustomListProject
 
         private void EnsureCapacity(int minimumCapacity)
         {
-            if (contents.Length < minimumCapacity)
+            if (size < minimumCapacity)
             {
-                int newCapacity = contents.Length;
+                int newCapacity = size;
                 if (newCapacity < minimumCapacity)
                 {
                     newCapacity = minimumCapacity;
@@ -109,7 +124,16 @@ namespace CustomListProject
         }
         public int IndexOf(T item)
         {
-            return Array.IndexOf(contents, item, 0, size);
+
+            int itemIndex = 0;
+            for (int index = size - 1; index >= 0; index--)
+            {
+                if (Equals(contents[index], item))
+                {
+                    itemIndex = index;
+                }
+            }
+            return itemIndex;
         }
 
         public bool Remove(T item)
@@ -128,10 +152,21 @@ namespace CustomListProject
             
             if (index < size)
             {
+                CustomList<T> newList = new CustomList<T>();
+                for (int x = 0; x < index; x++)
+                {
+                    newList.Add(contents[x]);
+                }
+                if (index + 1 < size)
+                {
+                    for (int x = index + 1; x < size; x++)
+                    {
+                        newList.Add(contents[x]);
+                    }
+                }
                 size--;
-                Array.Copy(contents, index + 1, contents, index, size - index);
+                contents = newList.contents;
             }
-            contents[size] = default(T);
         }
 
         public int Count()
@@ -223,5 +258,34 @@ namespace CustomListProject
             }
             return newList;
         }
+
+        public void BubbleSort()
+        {
+
+            T[] newList = new T[size];
+            for (int x = size - 1; x > 0; x--)
+            {
+                for (int y = 0; y < x; y++)
+                {
+                    if (contents[y] > contents[y + 1])
+                    {
+                        for (int index = 0; index < y; y++)
+                        {
+                            newList[index] = contents[index];
+                        }
+                        newList[y] = contents[y + 1];
+                        newList[y + 1] = contents[y];
+                        for (int index = y + 2; index < size; index++)
+                        {
+                            newList[index] = contents[index];
+                        }
+                        contents = newList;
+                    }
+                }
+            }
+
+
+        }
+
     }
 }

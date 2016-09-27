@@ -35,7 +35,7 @@ namespace CustomListProject
             };
 
 
-
+            Console.WriteLine(words[3]);
             foreach(string line in words)
             {
                 Console.WriteLine(line);
@@ -101,6 +101,8 @@ namespace CustomListProject
             Console.WriteLine(" ");
             Console.WriteLine(words.ToString());
             Console.WriteLine(" ");
+
+            Console.WriteLine(words[3]);
 
             Console.ReadLine();
         }
