@@ -16,10 +16,10 @@ namespace CustomListProject
     class CustomList<T>: IEnumerable<T>
     {
         
-        public T[] contents;
-        int size;
+        private T[] contents;
+        private int size;
 
-        T[] emptyArray = new T[0];
+        private T[] emptyArray = new T[0];
 
         public CustomList()
         {
@@ -125,7 +125,7 @@ namespace CustomListProject
         public int IndexOf(T item)
         {
 
-            int itemIndex = 0;
+            int itemIndex = -1;
             for (int index = size - 1; index >= 0; index--)
             {
                 if (Equals(contents[index], item))
@@ -223,11 +223,11 @@ namespace CustomListProject
             CustomList<T> newList = new CustomList<T>();
             for (int index = 0; index < firstList.size; index++)
             {
-                newList.Add(firstList.contents[index]);
+                newList.Add(firstList[index]);
             }            
             for (int index = 0; index < secondList.size; index++)
             {
-                newList.Remove(secondList.contents[index]);
+                newList.Remove(secondList[index]);
             }
             return newList;
         }
@@ -259,33 +259,31 @@ namespace CustomListProject
             return newList;
         }
 
-        public void BubbleSort()
-        {
-
-            T[] newList = new T[size];
-            for (int x = size - 1; x > 0; x--)
-            {
-                for (int y = 0; y < x; y++)
-                {
-                    if (contents[y] > contents[y + 1])
-                    {
-                        for (int index = 0; index < y; y++)
-                        {
-                            newList[index] = contents[index];
-                        }
-                        newList[y] = contents[y + 1];
-                        newList[y + 1] = contents[y];
-                        for (int index = y + 2; index < size; index++)
-                        {
-                            newList[index] = contents[index];
-                        }
-                        contents = newList;
-                    }
-                }
-            }
-
-
-        }
+        //public void BubbleSort()
+        //{
+        //    T[] newList = new T[size];
+        //    var keyList = contents.Keys.
+        //    for (int x = size - 1; x > 0; x--)
+        //    {
+        //        for (int y = 0; y < x; y++)
+        //        {
+        //            if (contents[y] > contents[y + 1])
+        //            {
+        //                for (int index = 0; index < y; y++)
+        //                {
+        //                    newList[index] = contents[index];
+        //                }
+        //                newList[y] = contents[y + 1];
+        //                newList[y + 1] = contents[y];
+        //                for (int index = y + 2; index < size; index++)
+        //                {
+        //                    newList[index] = contents[index];
+        //                }
+        //                contents = newList;
+        //            }
+        //        }
+        //    }
+        //}
 
     }
 }
