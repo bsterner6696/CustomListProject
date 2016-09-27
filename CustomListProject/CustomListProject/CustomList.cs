@@ -38,32 +38,7 @@ namespace CustomListProject
             }
         }
 
-        public CustomList(IEnumerable<T> enumerableGroup)
-        {
-            ICollection<T> collection = enumerableGroup as ICollection<T>;
-            if (collection != null)
-            {
-                int count = collection.Count;
-                if (count == 0)
-                {
-                    contents = emptyArray;
-                }
-                else
-                {
-                    contents = new T[count];
-                    collection.CopyTo(contents, 0);
-                    size = count;
-                }
-            }
-            else
-            {
-                size = 0;
-                contents = emptyArray;
-            }
-            
-        }
-
-
+        
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -84,11 +59,10 @@ namespace CustomListProject
 
         public void Add(T item)
         {
-            if (size == contents.Length)
-            {
+
                 EnsureCapacity(size + 1);
                 contents[size++] = item;
-            }
+
         }
 
         public int Capacity
@@ -101,7 +75,7 @@ namespace CustomListProject
             {
                 if (value < size)
                 {
-                    Console.WriteLine("Capacity is too small to set as list length.  Reenter with valid entry");
+                    Console.WriteLine("Entered capacity is too small to set as list length.  Reenter with valid entry");
                 }
                 else if (value!= contents.Length)
                 {
@@ -165,5 +139,89 @@ namespace CustomListProject
             return size;
         }
 
+        public override string ToString()
+        {
+            string[] temporaryArray = new string[size];
+            string contentsString = "";
+            for (int index = 0; index < size; index++)
+            {
+                try
+                {
+                    temporaryArray[index] = Convert.ToString(contents[index]);
+                    
+                    
+                    if (index == size-1)
+                    {
+                        contentsString = contentsString + temporaryArray[index];
+                    }
+                    else
+                    {
+                        contentsString = contentsString + temporaryArray[index] + ", ";
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Cannot convert to string.");
+                }
+            }
+            return contentsString;
+            
+        }
+
+        public static CustomList<T> operator +(CustomList<T> firstList, CustomList<T> secondList)
+        {
+            CustomList<T> newList = new CustomList<T>();
+            for (int index = 0; index < firstList.size; index++)
+            {
+                newList.Add(firstList.contents[index]);
+            }
+            for (int index = 0; index < secondList.size; index++)
+            {
+                newList.Add(secondList.contents[index]);
+            }
+
+            return newList;
+        }
+
+        public static CustomList<T> operator -(CustomList<T> firstList, CustomList<T> secondList)
+        {
+            CustomList<T> newList = new CustomList<T>();
+            for (int index = 0; index < firstList.size; index++)
+            {
+                newList.Add(firstList.contents[index]);
+            }            
+            for (int index = 0; index < secondList.size; index++)
+            {
+                newList.Remove(secondList.contents[index]);
+            }
+            return newList;
+        }
+
+        public CustomList<T> Zip(CustomList<T> zipList)
+        {
+            CustomList<T> newList = new CustomList<T>();
+            if (size >= zipList.size)
+            {
+                for (int index = 0; index < size; index++)
+                {
+                    newList.Add(contents[index]);
+                    if (index < zipList.size)
+                    {
+                        newList.Add(zipList.contents[index]);
+                    }
+                }
+            } else
+            {
+                for (int index = 0; index < zipList.size; index++)
+                {
+                    newList.Add(zipList.contents[index]);
+                    if (index < size)
+                    {
+                        newList.Add(contents[index]);
+                    }
+                }
+            }
+            return newList;
+        }
     }
 }
