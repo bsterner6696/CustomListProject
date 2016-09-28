@@ -13,17 +13,18 @@ using System.Collections;
 
 namespace CustomListProject
 {
-    class CustomList<T>: IEnumerable<T>
+    public class CustomList<T>: IEnumerable<T>
     {
         
         private T[] contents;
         private int size;
+        private int defaultLength = 5;
 
         private T[] emptyArray = new T[0];
 
         public CustomList()
         {
-            contents = emptyArray;
+            contents = new T[defaultLength];
         }
 
         public CustomList(int capacity)
@@ -32,7 +33,7 @@ namespace CustomListProject
             {
                 contents = emptyArray;
             }
-            else
+            else if (capacity > 0)
             {
                 contents = new T[capacity];
             }
@@ -54,7 +55,6 @@ namespace CustomListProject
             {
                 yield return contents[index];
             }
-
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -65,6 +65,15 @@ namespace CustomListProject
             }
         }
 
+        public int GetLength()
+        {
+
+            var countableArray = from item in contents
+                                 select contents;
+            int count = countableArray.Count();
+            return count;
+
+        }
         public void Add(T item)
         {
 
@@ -79,7 +88,7 @@ namespace CustomListProject
         {
             get
             {
-                return size;
+                return GetLength();
             }
             set
             {
@@ -94,8 +103,6 @@ namespace CustomListProject
                         T[] newContents = new T[value];
                         if (size > 0)
                         {
-                            
-
                             for (int index = 0; index < size; index++)
                             {
                                 newContents[index] = contents[index];
@@ -104,22 +111,15 @@ namespace CustomListProject
                         contents = newContents;
                     }
                     else contents = emptyArray;
-                }
-                
+                }               
             }
         }
 
         private void EnsureCapacity(int minimumCapacity)
         {
-            if (size < minimumCapacity)
+            if (GetLength() < minimumCapacity)
             {
-                int newCapacity = size;
-                if (newCapacity < minimumCapacity)
-                {
-                    newCapacity = minimumCapacity;
-                }
-                Capacity = newCapacity;
-
+                Capacity = minimumCapacity*2;
             }
         }
         public int IndexOf(T item)

@@ -36,6 +36,7 @@ namespace CustomListProject
 
 
             Console.WriteLine(words[3]);
+            Console.WriteLine("");
             foreach(string line in words)
             {
                 Console.WriteLine(line);
@@ -103,13 +104,13 @@ namespace CustomListProject
             Console.WriteLine(" ");
 
             Console.WriteLine(words[3]);
+            Console.WriteLine("");
 
-            words.bubblesort();
+            words.bubbleSort();
             foreach(string line in words)
             {
                 Console.WriteLine(line);
             }
-
             Console.ReadLine();
         }
     }
