@@ -259,31 +259,28 @@ namespace CustomListProject
             return newList;
         }
 
-        //public void BubbleSort()
-        //{
-        //    T[] newList = new T[size];
-        //    var keyList = contents.Keys.
-        //    for (int x = size - 1; x > 0; x--)
-        //    {
-        //        for (int y = 0; y < x; y++)
-        //        {
-        //            if (contents[y] > contents[y + 1])
-        //            {
-        //                for (int index = 0; index < y; y++)
-        //                {
-        //                    newList[index] = contents[index];
-        //                }
-        //                newList[y] = contents[y + 1];
-        //                newList[y + 1] = contents[y];
-        //                for (int index = y + 2; index < size; index++)
-        //                {
-        //                    newList[index] = contents[index];
-        //                }
-        //                contents = newList;
-        //            }
-        //        }
-        //    }
-        //}
+        public void bubbleSort()
+        {
+            
+            for (int x = size - 1; x > 0; x--)
+            {
+                for (int y = 0; y < x; y++)
+                {
+                    CustomList<T> newList = new CustomList<T>();
+                    T[] bubbleArray = { contents[y], contents[y + 1] };
+                    var orderedBubble = from element in bubbleArray
+                                        orderby element ascending
+                                        select element;
+                    foreach (var element in orderedBubble)
+                    {
+                        newList.Add(element);
+                    }
+                    contents[y] = newList.contents[0];
+                    contents[y + 1] = newList.contents[1];
+                    
+                }
+            }
+        }
 
     }
 }

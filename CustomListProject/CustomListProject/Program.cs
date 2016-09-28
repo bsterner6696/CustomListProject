@@ -104,6 +104,12 @@ namespace CustomListProject
 
             Console.WriteLine(words[3]);
 
+            words.bubblesort();
+            foreach(string line in words)
+            {
+                Console.WriteLine(line);
+            }
+
             Console.ReadLine();
         }
     }
