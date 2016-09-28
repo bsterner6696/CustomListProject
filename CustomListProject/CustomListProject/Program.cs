@@ -106,8 +106,8 @@ namespace CustomListProject
             Console.WriteLine(words[3]);
             Console.WriteLine("");
 
-            words.bubbleSort();
-            foreach(string line in words)
+            doubles.bubbleSort();
+            foreach(double line in doubles)
             {
                 Console.WriteLine(line);
             }

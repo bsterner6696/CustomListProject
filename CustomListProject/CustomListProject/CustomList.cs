@@ -13,18 +13,20 @@ using System.Collections;
 
 namespace CustomListProject
 {
-    public class CustomList<T>: IEnumerable<T>
+    public class CustomList<T>: IEnumerable<T> where T : IComparable
     {
         
         private T[] contents;
         private int size;
-        private int defaultLength = 5;
+        private int length;
+        private int defaultLength = 5;      
 
         private T[] emptyArray = new T[0];
 
         public CustomList()
         {
-            contents = new T[defaultLength];
+            length = defaultLength;
+            contents = new T[length];
         }
 
         public CustomList(int capacity)
@@ -32,10 +34,13 @@ namespace CustomListProject
             if (capacity == 0)
             {
                 contents = emptyArray;
+                Length = 0;
+                
             }
             else if (capacity > 0)
             {
                 contents = new T[capacity];
+                Length = capacity;
             }
         }
 
@@ -44,6 +49,11 @@ namespace CustomListProject
             get
             {
                 return contents[index];
+            }
+
+            set
+            {
+                contents[index] = value;
             }
         }
 
@@ -65,13 +75,21 @@ namespace CustomListProject
             }
         }
 
-        public int GetLength()
+        public int Length
         {
 
-            var countableArray = from item in contents
-                                 select contents;
-            int count = countableArray.Count();
-            return count;
+            get
+            {
+                return length;
+            }
+            set
+            {
+                length = value;
+            }
+            //var countableArray = from item in contents
+            //                     select contents;
+            //int count = countableArray.Count();
+            //return count;
 
         }
         public void Add(T item)
@@ -88,7 +106,7 @@ namespace CustomListProject
         {
             get
             {
-                return GetLength();
+                return Length;
             }
             set
             {
@@ -96,33 +114,32 @@ namespace CustomListProject
                 {
                     Console.WriteLine("Entered capacity is too small to set as list length.  Reenter with valid entry");
                 }
-                else if (value!= size)
+                else if (value > 0)
                 {
-                    if (value > 0)
+                    T[] newContents = new T[value];
+                    for (int index = 0; index < size; index++)
                     {
-                        T[] newContents = new T[value];
-                        if (size > 0)
-                        {
-                            for (int index = 0; index < size; index++)
-                            {
-                                newContents[index] = contents[index];
-                            }          
-                        }
-                        contents = newContents;
+                        newContents[index] = contents[index];
                     }
-                    else contents = emptyArray;
-                }               
+                    contents = newContents;
+                    Length = value;
+                }
+                else
+                {
+                    contents = emptyArray;
+                    Length = 0;
+                }
             }
         }
 
         private void EnsureCapacity(int minimumCapacity)
         {
-            if (GetLength() < minimumCapacity)
+            if (Length < minimumCapacity)
             {
                 Capacity = minimumCapacity*2;
             }
         }
-        public int IndexOf(T item)
+        private int IndexOf(T item)
         {
 
             int itemIndex = -1;
@@ -147,7 +164,7 @@ namespace CustomListProject
             return false;
         }
 
-        public void RemoveAt(int index)
+        private void RemoveAt(int index)
         {
             
             if (index < size)
@@ -169,11 +186,13 @@ namespace CustomListProject
             }
         }
 
-        public int Count()
+        public int Count
         {
-            return size;
+            get
+            {
+                return size;
+            }
         }
-
         public override string ToString()
         {
             string[] temporaryArray = new string[size];
@@ -183,8 +202,7 @@ namespace CustomListProject
                 try
                 {
                     temporaryArray[index] = Convert.ToString(contents[index]);
-                    
-                    
+                                       
                     if (index == size-1)
                     {
                         contentsString = contentsString + temporaryArray[index];
@@ -199,10 +217,8 @@ namespace CustomListProject
                     Console.WriteLine("Cannot convert to string.");
                 }
             }
-            return contentsString;
-            
+            return contentsString;           
         }
-
         public static CustomList<T> operator +(CustomList<T> firstList, CustomList<T> secondList)
         {
             CustomList<T> newList = new CustomList<T>();
@@ -266,17 +282,13 @@ namespace CustomListProject
             {
                 for (int y = 0; y < x; y++)
                 {
-                    CustomList<T> newList = new CustomList<T>();
-                    T[] bubbleArray = { contents[y], contents[y + 1] };
-                    var orderedBubble = from element in bubbleArray
-                                        orderby element ascending
-                                        select element;
-                    foreach (var element in orderedBubble)
+                    if (contents[y].CompareTo(contents[y+1]) >= 0)
                     {
-                        newList.Add(element);
+                        CustomList<T> newList = new CustomList<T>(1);
+                        newList[0] = contents[y];
+                        contents[y] = contents[y + 1];
+                        contents[y + 1] = newList[0];
                     }
-                    contents[y] = newList.contents[0];
-                    contents[y + 1] = newList.contents[1];
                     
                 }
             }

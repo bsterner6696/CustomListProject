@@ -10,10 +10,18 @@ namespace CustomListUnitTests
         [TestMethod]
         public void GetLengthOfEmptyArrayLength5()
         {
-            CustomList<string> basicList = new CustomList<string>(5);
-            int length = basicList.GetLength();
+            CustomList<string> basicList = new CustomList<string>();
+            int length = basicList.Length;
             Assert.AreEqual(5, length);
 
+        }
+
+        [TestMethod]
+        public void GetLengthOfEmptyArrayLength0()
+        {
+            CustomList<string> basicList = new CustomList<string> { "cow", "pig", " ", " ", " ", " " };
+            int length = basicList.Length;
+            Assert.AreEqual(12, length);
         }
     }
 }
