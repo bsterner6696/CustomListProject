@@ -30,7 +30,7 @@ namespace CustomListProject
         public CustomList(int capacity)
         {
             contents = new T[capacity];
-            Length = capacity;
+            length = capacity;
         }
 
         public T this[int index]
@@ -45,8 +45,6 @@ namespace CustomListProject
                 contents[index] = value;
             }
         }
-
-        
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -69,10 +67,6 @@ namespace CustomListProject
             get
             {
                 return length;
-            }
-            set
-            {
-                length = value;
             }
         }
         public void Add(T item)
@@ -102,7 +96,7 @@ namespace CustomListProject
                         newContents[index] = contents[index];
                     }
                     contents = newContents;
-                    Length = value;
+                    length = value;
                 }
             }
         }
