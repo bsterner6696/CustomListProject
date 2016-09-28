@@ -21,8 +21,6 @@ namespace CustomListProject
         private int length;
         private int defaultLength = 5;      
 
-        private T[] emptyArray = new T[0];
-
         public CustomList()
         {
             length = defaultLength;
@@ -31,17 +29,8 @@ namespace CustomListProject
 
         public CustomList(int capacity)
         {
-            if (capacity == 0)
-            {
-                contents = emptyArray;
-                Length = 0;
-                
-            }
-            else if (capacity > 0)
-            {
-                contents = new T[capacity];
-                Length = capacity;
-            }
+            contents = new T[capacity];
+            Length = capacity;
         }
 
         public T this[int index]
@@ -77,7 +66,6 @@ namespace CustomListProject
 
         public int Length
         {
-
             get
             {
                 return length;
@@ -86,20 +74,12 @@ namespace CustomListProject
             {
                 length = value;
             }
-            //var countableArray = from item in contents
-            //                     select contents;
-            //int count = countableArray.Count();
-            //return count;
-
         }
         public void Add(T item)
         {
-
             EnsureCapacity(size + 1);
             contents[size] = item;
             size++;
-         
-
         }
 
         public int Capacity
@@ -114,7 +94,7 @@ namespace CustomListProject
                 {
                     Console.WriteLine("Entered capacity is too small to set as list length.  Reenter with valid entry");
                 }
-                else if (value > 0)
+                else if (value >= 0)
                 {
                     T[] newContents = new T[value];
                     for (int index = 0; index < size; index++)
@@ -123,11 +103,6 @@ namespace CustomListProject
                     }
                     contents = newContents;
                     Length = value;
-                }
-                else
-                {
-                    contents = emptyArray;
-                    Length = 0;
                 }
             }
         }
