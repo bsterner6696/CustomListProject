@@ -156,24 +156,6 @@ namespace CustomListProject
             {
                 return size;
 
-                //if (contents[0] == null)
-                //{
-                //    return 0;
-                //}
-                //else
-                //{
-
-                //    for (int x = 1; x < length; x++)
-                //    {
-                //        if (contents[x] == null)
-                //        {
-                //            break;
-                //        }
-                //        count++;
-                //    }
-
-                //    return count;
-                //}
             }
         }
         public override string ToString()
