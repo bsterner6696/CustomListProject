@@ -26,12 +26,12 @@ namespace CustomListProject
 
             CustomList<int> numbers = new CustomList<int>
             {
-                1, 2, 3, 4, 5
+                1, 2, 3, 4, 5, 21, 7
             };
 
             CustomList<double> doubles = new CustomList<double>
             {
-                1.3, 2.8, 6.4453535, .0123424, .00001
+                1.3, 2.8, 6.4453535, .0123424, .00001, .388
             };
 
 
@@ -106,7 +106,7 @@ namespace CustomListProject
             Console.WriteLine(words[3]);
             Console.WriteLine("");
 
-            doubles.bubbleSort();
+            doubles.BubbleSort();
             foreach(double line in doubles)
             {
                 Console.WriteLine(line);
